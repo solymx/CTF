@@ -1,0 +1,8 @@
+Guess or try xxxxx in flag and replace to the correct word.
+xxxxx is uppercase.
+No need decipher the password of xxxxx.zip.
+lost_data.zip
+Hint:
+Refer the file contents of xxxxx.zip.
+filesystem is answer.
+(For + Misc, 100 points)

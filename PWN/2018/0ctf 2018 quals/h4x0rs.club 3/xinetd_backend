@@ -1,0 +1,12 @@
+service backend
+{
+    disable = no
+    socket_type = stream
+    protocol    = tcp
+    wait        = no
+    user        = backend
+    bind        = 127.0.0.1
+    server      = /home/backend/backend_server
+    type        = UNLISTED
+    port        = 9999
+}

@@ -1,0 +1,3 @@
+Our friend tried to send us all his BTCs, but MAC of the transaction was lost. We need your help to compute MAC for this encrypted transaction.
+
+Send it in format VolgaCTF{AuthTag_in_HEX}.

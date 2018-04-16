@@ -1,0 +1,2 @@
+The password to the archive is flag+stringreverse(flag) where flag specifies the flag of miscertify and string reverse is reverse of the string
+

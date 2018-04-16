@@ -1,0 +1,1 @@
+We've intercepted several consecutive signatures. Take everything you need and find the secret key. Send it to us in hex.

@@ -1,0 +1,3 @@
+Good times were had.
+
+Note: ASLR is disabled for this challenge.
