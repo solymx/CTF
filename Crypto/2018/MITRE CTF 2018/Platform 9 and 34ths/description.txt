@@ -1,0 +1,5 @@
+You told your friend that his online game wasn¡¦t secure enough so he added some encryption. Shouldn¡¦t be possible to beat it now, right?
+
+How to Run Client: Run ./preInstall.sh which installs 32-bit libraries that the game requires. Once the script completes, the game will run automatically.
+
+Windows version is also available here

