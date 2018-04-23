@@ -1,0 +1,13 @@
+diff --git a/src/update.c b/src/update.c
+index 5208c5f..adf7e03 100644
+--- a/src/update.c
++++ b/src/update.c
+@@ -130,7 +130,7 @@ void update_game()
+ 		update_security(t);
+     if(t - last_random_update >= Random_update_interval)
+ 		update_random(t);
+-    if(t != last_active_update)
++    if(t > last_active_update)
+ 		update_active(t);
+     if(t - last_time_update >= 150)
+ 		update_time(t);
