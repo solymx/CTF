@@ -16,10 +16,10 @@ Record
 	- gdb (learn how to use gdb (change eip to other function))           
 	- ret2sc (return to shellcode)        
 	- orw64 (write x64 assembly code (open , read , write))         
-	- pwntool (Binary Search)       
-	- r3t2lib (return to library)       
-	- simplerop (rop (statically linked))     
-	- ret2plt (rop)       
+	- pwntool (Binary Search)
+	- r3t2lib (return to library)
+	- simplerop (rop (statically linked))
+	- ret2plt (rop)
 
 
 * **pwnable.kr**
@@ -32,10 +32,10 @@ Record
 		- blackjack (just see code)
 		- cmd1
 		- cmd2
-			
+
 * **Jarvis OJ**
 	- Smashes (ELF remapping and SSP leak)
-	- Tell me Something (buffer overflow & jmp to func)		
+	- Tell me Something (buffer overflow & jmp to func)
 	- [XMAN]level0 (buffer overflow & jmp to func)
 	- [XMAN]level1 (ret2sc)
 	- [XMAN]level2 (basic rop)
@@ -43,6 +43,7 @@ Record
 	- [XMAN]level3 (ret2libc)
 	- [XMAN]level3(x64) (ret2libc, use write to leak base address)
 	- [XMAN]level4 (stack migration, DynELF, no libc)
+	- [XMAN]level5 (use mmap/mprotect to exec shellcode in NX)
 
 * **hackme.inndy.tw**
 	- homework (index out of bound, ret)
@@ -57,7 +58,7 @@ Record
 	- ret2win (jmp to func)
 	- split (basic rop)
 	- callme (basic rop)
-	- write4 
+	- write4
 	- badchars (需要對 shellcode 做encode/decode, 用 xor)
 	- fluff (對 gadget 需要特別找一下)
 	- pivot (stack pivot)

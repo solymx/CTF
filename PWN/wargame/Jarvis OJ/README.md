@@ -58,10 +58,79 @@
 ===
 主要有一個問題是，找不到 rdx 的 gadget ，但看調適可以知道他的值會很大
 
-所以就不用設，然後現在題目上給的 libc 好像是錯的= =
 
 ## [XMAN]level4
 
 這題和前面的差別在，沒有給 libc ，所以可以使用 DynELF
 
 或者 ret2dlresolve 之類的
+
+## [XMAN]level5
+> Description:
+>
+> mmap和mprotect练习，假设system和execve函数被禁用，请尝试使用mmap和mprotect完成本题。
+
+網路上好像都是用 mprotect ，所以這邊也是參考別人的來做，紀錄一下...
+
+第一個 payload 流程:
+1. write(1, write@got, ...) 用來 leak base 來算 mprotect
+2. read(0, libc_start_main@got, ...) GOT hijack ，蓋為 mprotect
+3. read(0, bss, ...) 放 shellcode
+4. read(0, gmon_start@got, ...) GOT hijack ，蓋為 bss
+5. 返回 main ，準備第二個 payload
+
+構造第二個payload 中，因為找沒有 pop rdx 這個 gadget ，
+
+所以使用 libc_csu_init 這個萬能 gadget
+
+```
+0000000000400650 <__libc_csu_init>:
+  400650:       41 57                   push   r15
+  400652:       41 89 ff                mov    r15d,edi
+  400655:       41 56                   push   r14
+  400657:       49 89 f6                mov    r14,rsi
+  40065a:       41 55                   push   r13
+  40065c:       49 89 d5                mov    r13,rdx
+  40065f:       41 54                   push   r12
+  400661:       4c 8d 25 d8 01 20 00    lea    r12,[rip+0x2001d8]        # 600840 <__frame_dummy_init_array_entry>
+  400668:       55                      push   rbp
+  400669:       48 8d 2d d8 01 20 00    lea    rbp,[rip+0x2001d8]        # 600848 <__init_array_end>
+  400670:       53                      push   rbx
+  400671:       4c 29 e5                sub    rbp,r12
+  400674:       31 db                   xor    ebx,ebx
+  400676:       48 c1 fd 03             sar    rbp,0x3
+  40067a:       48 83 ec 08             sub    rsp,0x8
+  40067e:       e8 fd fd ff ff          call   400480 <_init>
+  400683:       48 85 ed                test   rbp,rbp
+  400686:       74 1e                   je     4006a6 <__libc_csu_init+0x56>
+  400688:       0f 1f 84 00 00 00 00    nop    DWORD PTR [rax+rax*1+0x0]
+  40068f:       00
+  400690:       4c 89 ea                mov    rdx,r13
+  400693:       4c 89 f6                mov    rsi,r14
+  400696:       44 89 ff                mov    edi,r15d
+  400699:       41 ff 14 dc             call   QWORD PTR [r12+rbx*8]
+  40069d:       48 83 c3 01             add    rbx,0x1
+  4006a1:       48 39 eb                cmp    rbx,rbp
+  4006a4:       75 ea                   jne    400690 <__libc_csu_init+0x40>
+  4006a6:       48 83 c4 08             add    rsp,0x8
+  4006aa:       5b                      pop    rbx
+  4006ab:       5d                      pop    rbp
+  4006ac:       41 5c                   pop    r12
+  4006ae:       41 5d                   pop    r13
+  4006b0:       41 5e                   pop    r14
+  4006b2:       41 5f                   pop    r15
+  4006b4:       c3                      ret
+
+```
+
+第二個 payload 流程:
+1. 先跳到 0x4006a6 ，這邊設定 rbx和rbp 要注意 0x40069d 那兩行，等等會跳到那
+2. rbx = 0, rbp = 1
+3. ret 那邊要蓋為 0x400690，第一次是 call mprotect 來設 bss 為 rwx
+4. 所以我們可以知道 rdx = r13, rsi = r14, rdi = edi = r15, r12 = 要跳的位址 = mprotect
+5. 第二次要跳 shellcode，這樣就可以 get shell
+
+
+本地測試正常，不知道為啥丟遠端會有問題，感覺是網路延遲= =...
+[參考](http://veritas501.space/2017/03/10/JarvisOJ_WP/)
+
