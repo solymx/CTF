@@ -55,4 +55,13 @@
 
 之後算出 system 後執行 system(“sh”)
 
+===
+主要有一個問題是，找不到 rdx 的 gadget ，但看調適可以知道他的值會很大
 
+所以就不用設，然後現在題目上給的 libc 好像是錯的= =
+
+## [XMAN]level4
+
+這題和前面的差別在，沒有給 libc ，所以可以使用 DynELF
+
+或者 ret2dlresolve 之類的

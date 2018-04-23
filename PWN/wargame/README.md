@@ -4,7 +4,7 @@
 Record
 
 
-* **Wargame - pwnable.tw**
+* **pwnable.tw**
 	- start (leak esp and jmp to shellcode)
 	- orw (write x86 assembly code (open , read , write))
 	- Silver Bullet (off by one overflow & know strncat will add \x00 in the end)
@@ -22,7 +22,7 @@ Record
 	- ret2plt (rop)       
 
 
-* **Wargame - pwnable.kr**
+* **pwnable.kr**
 	- ***[Toddler's Bottle]***
 		- bof (basic buffer overflow)
 		- passcode (GOT Hijack)
@@ -33,7 +33,7 @@ Record
 		- cmd1
 		- cmd2
 			
-* **Wargame - Jarvis OJ**
+* **Jarvis OJ**
 	- Smashes (ELF remapping and SSP leak)
 	- Tell me Something (buffer overflow & jmp to func)		
 	- [XMAN]level0 (buffer overflow & jmp to func)
@@ -42,8 +42,9 @@ Record
 	- [XMAN]level2(x64) (basic rop)
 	- [XMAN]level3 (ret2libc)
 	- [XMAN]level3(x64) (ret2libc, use write to leak base address)
+	- [XMAN]level4 (stack migration, DynELF, no libc)
 
-* **Wargame - hackme.inndy.tw**
+* **hackme.inndy.tw**
 	- homework (index out of bound, ret)
 	- ROP (basic rop, static)
 	- ROP2 (basic rop, dynamic)
