@@ -59,3 +59,20 @@ read(0, buf, 60);
 整個漏洞在處理數字和邏輯時，可以 overflow
 
 
+## hacknote
+用 ida pro 看，在 delete_note() 中
+```
+ if ( *(&ptr + idx) )
+  {
+    free(*((void **)*(&ptr + idx) + 1));
+    free(*(&ptr + idx));
+    puts("Success");
+  }
+
+```
+
+沒 free() 掉，所以有 Use After Free
+
+而在 add_note() 中，每新增一個chunk ，會先 malloc 0x8
+
+前 0x4 指向一個用來印出內容的函數，後 4 byte 存指向其 content 的 pointer
