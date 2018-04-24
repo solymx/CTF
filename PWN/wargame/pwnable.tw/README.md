@@ -42,3 +42,20 @@ read(0, buf, 60);
 ## orw
 單純寫 x86 的 open-read-write
 
+## calc
+保護:
+```
+    Arch:     i386-32-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x8048000)
+```
+
+丟到 ida 來看 src code，一開始將輸入丟到 get_expr() 做檢測，
+
+只允許 + , - , * , / , % 和數字，之後再給 parse_expr() 處理
+
+整個漏洞在處理數字和邏輯時，可以 overflow
+
+

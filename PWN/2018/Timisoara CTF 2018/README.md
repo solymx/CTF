@@ -7,3 +7,5 @@
 可以觸發 buffer overflow ，然後可以直接在城市裏面找到 sh\x00 和 system_plt
 
 所以直接 overflow 後跳 system('sh\x00') 即可
+
+## HeapSchool

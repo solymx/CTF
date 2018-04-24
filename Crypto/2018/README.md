@@ -38,3 +38,9 @@ Record
 * **VolgaCTF 2018 Quals**
 	- Forbidden (aes-gcm, iv reuse, forbidden attack, paper)
 	- Nonsense (dsa, lcg)
+
+* **Timisoara CTF 2018 Quals**
+	- Not Your Average RSA (Multi prime rsa)
+	- Hush Hush (md5 collision)
+	- SSS Part 1 (Shamir Secret Sharing)
+	- SSS Part 2
