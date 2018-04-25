@@ -1,9 +1,9 @@
 # pwnable.tw - Notes
 
 > 目錄:
-> * [1. start](#1)
-> * [2. orw](#2)
->
+> * [1. start](#1-start)
+> * [2. orw](#2-orw)
+> * [3. calc](#3)
 >
 >
 >
@@ -49,6 +49,7 @@ read(0, buf, 60);
 <h2 id="2">2. orw</h2>
 單純寫 x86 的 open-read-write
 
+<h2 id="3">3.calc</h2>
 ## calc
 保護:
 ```
