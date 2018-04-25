@@ -5,7 +5,7 @@
 > * [orw](#orw)
 > * [calc](#calc)
 > * [dubblesort](#dubblesort)
-> * [Silver_Bullet](#Silver_Bullet)
+> * [Silver_Bullet](#silver_bullet)
 > * [hacknote](#hacknote)
 > * [criticalheap](#criticalheap)
 
