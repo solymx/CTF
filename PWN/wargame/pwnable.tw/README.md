@@ -58,6 +58,71 @@ read(0, buf, 60);
 
 整個漏洞在處理數字和邏輯時，可以 overflow
 
+## dubblesort
+這題保護全開，先丟 ida pro ...
+
+一開始先輸入，之後丟給 sort() 做氣泡排序，之後給結果
+
+這題因為他不會限制你可以輸入幾個數字，所以可以 overflow
+
+起始位置在
+```
+lea     edi, [esp+1Ch]
+mov     esi, 0
+```
+
+canary 放在 esp+0x7c 的地方
+```
+mov     eax, large gs:14h
+mov     [esp+7Ch], eax
+```
+
+所以可以知道，輸入第 24 個會蓋到 canary ，第 32 個會蓋到 ret (ebp-4)
+
+
+而這題考的 trick 是 scanf("%u") ，如果給他 + ，則不會蓋到本來記憶體的地方
+
+這樣就可以 overflow 來控 eip 
+
+
+然後在最一開始輸入名字的地方
+```
+  read(0, buf, 0x40u);
+  __printf_chk(1, "Hello %s,How many numbers do you what to sort :");
+```
+他的 printf("%s") ， %s 是吃到 \x00 結束，而我們輸入 user 進去會是 user\n
+
+所以他會繼續印到 \x00 為止，然後他位址是在 esp+0x3c ，也就是他會一直印 64 個 bytes
+
+或中間出現 \x00 為止，會可以 leak info 是因為他的 name 並沒有先清零
+
+用 gdb 看一下，在他旁邊是一個 f7 開頭的，應該可以透過相對位置
+
+來獲取 libc 的位址 ，之後就是跳 system('sh')
+
+system 位址一定比 sh 還小，不過偶爾 canary 比這兩個大就會失敗
+
+## Silver Bullet
+
+有給 libc 且保護只有 NX 和 FULL RELRO ，應該是 ret2libc 且不可以 GOT Hijack
+
+
+這題應該有個結構是
+```c
+{
+    char buf[48];
+    int length;
+}
+```
+
+漏洞在 strncat 在串接後會補零，所以一開始我們先 create 一個長度是 47 的 bullet
+
+之後用 power_up() 在串一個字進去，則因為 strncat 自動補零的關係，會蓋到 length
+
+使其變成 0 ，這樣在 power_up() 一次可以把它改很大，來 beat 成功並造成 overflow
+
+這裡 rop 先做 leak 之後再返回 main 重做一次，跳 system('sh') 來 get shell 
+
 
 ## hacknote
 用 ida pro 看，在 delete_note() 中
@@ -76,3 +141,39 @@ read(0, buf, 60);
 而在 add_note() 中，每新增一個chunk ，會先 malloc 0x8
 
 前 0x4 指向一個用來印出內容的函數，後 4 byte 存指向其 content 的 pointer
+
+
+簡單思路是，add 兩個 fastbin ，content 大小不可以是 16 ，假設 content 給 24 好了
+(x86 下，最小分配 16 bytes, x64 則是最小分配 32 bytes)
+(他雖然一開始是 malloc(8) ，但實際上分配 16 bytes)
+
+這樣heap 上應該是
+```
+|note_0 : 16 bytes|
+|content_0 : 32 bytes |
+|note_1 : 16 bytes|
+|content_1 : 32 bytes |
+```
+之後 delete 這兩個 chunk 後，在新增一次並把 content 大小設為 16
+
+這時就可以蓋到 note_0 上指向函數的位址了
+
+所以第一次可以先 leak ，之後再用 system 來 get shell
+
+不過這邊要看一下 print_note()
+```
+  if ( ptr[v1] )
+    (ptr[v1]->function_ptr)(ptr[v1]);
+```
+
+他傳入的是 note* 本身，所以蓋成 system 後，執行的是 note* 自身
+
+而 system 的參數是可以用 ; 或 || 這種，比如
+
+
+```
+system("gg ; sh");
+or
+system("gg || sh");
+```
+

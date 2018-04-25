@@ -9,6 +9,7 @@ Record
 	- orw (write x86 assembly code (open , read , write))
 	- Silver Bullet (off by one overflow & know strncat will add \x00 in the end)
 	- dubblesort (scanf("%u") can use "+" to bypass canary)
+	- hacknote (Use After Free,UAF)
 
 
 * **pwnhub.tw**
