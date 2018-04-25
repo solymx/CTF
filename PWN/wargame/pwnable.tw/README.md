@@ -1,14 +1,16 @@
 # pwnable.tw - Notes
 
 > 目錄:
-> * [1. start](##start)
-> * [2. orw](##orw)
-> * [3. calc](##calc)
+> * [start](#start)
+> * [orw](#orw)
+> * [calc](#calc)
 >
 >
 >
 
-## start
+start
+---
+
 保護完全沒開，就會想到 ret2sc，直接用 objdump 看，可以知道大概程式碼是
 ```c
 char buf[20];
@@ -46,10 +48,13 @@ read(0, buf, 60);
 
 做 ret2shellcode 即可
 
-##orw
+orw
+---
+
 單純寫 x86 的 open-read-write
 
-## calc
+calc
+---
 保護:
 ```
     Arch:     i386-32-little
