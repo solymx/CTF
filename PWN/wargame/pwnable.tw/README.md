@@ -1,6 +1,13 @@
 # pwnable.tw - Notes
 
-## start
+> 目錄:
+> * [1. start](#1)
+> * [2. orw](#2)
+>
+>
+>
+>
+<h2 id="1">1. start</h2>
 
 保護完全沒開，就會想到 ret2sc，直接用 objdump 看，可以知道大概程式碼是
 ```c
@@ -39,7 +46,7 @@ read(0, buf, 60);
 
 做 ret2shellcode 即可
 
-## orw
+<h2 id="2">2. orw</h2>
 單純寫 x86 的 open-read-write
 
 ## calc
@@ -187,4 +194,45 @@ system("gg || sh");
 所以 leak 完後，再 delete_note(2) 一次，給大小 8 ，content 為
 
 system_addr + "||sh" 即可
+
+## criticalheap
+有三個結構
+
+漏洞:
+1. 程式在一開始先用 ```srand(time(0))``` 來初始化
+```
+	v0 = time(0LL);
+	srand(v0);
+```
+我們可以創建 clock_heap ，如果夠快或許可以抓到時間，
+```
+	timer = time(0LL);
+	h->d.clock.timestamp = (__int64)localtime(&timer);
+```
+
+然後 system_heap 的 rand()，就可以預測了
+
+2. localtime 和 setenv 配合，就可以將任意文件寫到 heap 上了
+
+這是本題考的 trick ，因為有 localtime ，所以可以透過
+
+設定 TZ 這個環境變數來載入任何檔案到 heap 中，再搭配 fmt vuln 的任意讀來獲取 flag
+
+3. chunk_system 的 detail 在 offset 0x20， chunk_normal 的 content 在
+
+offset 0x18 的位置，content 讀取時沒有截斷，而detail 在 stack 上，
+
+所以可以 leak heap
+
+4. normal_heap 的 play 有一個 printf_chk 的 format string vuln
+```
+if ( v1 == 1 )
+    {
+      printf("Content :");
+      _printf_chk(1LL, (__int64)&a1->d);        // format string vuln
+```
+
+配合 normal_heap 的 play 的 change_content 就可以在 stack 上留下東西
+
+然後來任意位址讀，因為他用的是 printf_chk() ，所以不能用 %n 作任意位址寫
 
