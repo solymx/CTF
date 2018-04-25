@@ -4,13 +4,13 @@
 > * [start](#start)
 > * [orw](#orw)
 > * [calc](#calc)
->
->
->
+> * [dubblesort](#dubblesort)
+> * [Silver_Bullet](#Silver_Bullet)
+> * [hacknote](#hacknote)
+> * [criticalheap](#criticalheap)
 
 start
 ---
-
 保護完全沒開，就會想到 ret2sc，直接用 objdump 看，可以知道大概程式碼是
 ```c
 char buf[20];
@@ -50,7 +50,6 @@ read(0, buf, 60);
 
 orw
 ---
-
 單純寫 x86 的 open-read-write
 
 calc
@@ -70,7 +69,8 @@ calc
 
 整個漏洞在處理數字和邏輯時，可以 overflow
 
-## dubblesort
+dubblesort
+---
 這題保護全開，先丟 ida pro ...
 
 一開始先輸入，之後丟給 sort() 做氣泡排序，之後給結果
@@ -114,8 +114,8 @@ mov     [esp+7Ch], eax
 
 system 位址一定比 sh 還小，不過偶爾 canary 比這兩個大就會失敗
 
-## Silver Bullet
-
+Silver_Bullet
+---
 有給 libc 且保護只有 NX 和 FULL RELRO ，應該是 ret2libc 且不可以 GOT Hijack
 
 
@@ -136,7 +136,8 @@ system 位址一定比 sh 還小，不過偶爾 canary 比這兩個大就會失�
 這裡 rop 先做 leak 之後再返回 main 重做一次，跳 system('sh') 來 get shell 
 
 
-## hacknote
+hacknote
+---
 用 ida pro 看，在 delete_note() 中
 ```
  if ( *(&ptr + idx) )
@@ -200,7 +201,10 @@ system("gg || sh");
 
 system_addr + "||sh" 即可
 
-## criticalheap
+
+criticalheap
+---
+
 有三個結構
 
 漏洞:
