@@ -245,3 +245,53 @@ if ( v1 == 1 )
 
 然後來任意位址讀，因為他用的是 printf_chk() ，所以不能用 %n 作任意位址寫
 
+
+紀錄幾個程式地方:
+
+程式中，在 playsystem()
+```
+if ( setenv(s, value, 0) )
+            puts("Failed !");
+          else
+            puts("Done !");
+```
+
+man 裡面有說明
+```
+setenv(const char *name, const char *value, int overwrite);
+
+  The  setenv()  function  adds  the variable name to the environment with 
+  the value value, if name does not already exist.  If name does exist in the
+       environment, then its value is changed to value if overwrite is nonzero;
+        if overwrite is zero, then the value of name is not changed  (and  setenv()
+       returns a success status). 
+```
+簡單講，這題的 overwrite 給 0 ，也就是如果我們要改已經存在的 env ，必須先 unset 才可以
+，直接改不行
+
+
+程式中有用到 strdup() ，在一開始 create_heap() 中
+```
+    char name[168];
+    printf("Name of heap:");
+    readline(name, 160u);
+    Heaps[i].name = strdup(name);
+```
+看一下 man
+```
+char * strdup(const char *s);
+
+他會先用 malloc 分配一個和 *s 一樣大小的空間，並且把 *s 的內容複製到該空間後，之後再把該地址返回。
+
+傳回的空間要記得之後用 free()
+
+*重點: 他會用到 malloc()*
+```
+
+
+整個解題步驟:
+1. 先 leak heap base
+2. 設定環境變數 TZ 和 TZDIR ，將文件載入到 heap 中
+3. format string vuln 做任意讀
+
+
