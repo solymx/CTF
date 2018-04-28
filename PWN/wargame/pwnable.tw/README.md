@@ -8,7 +8,9 @@
 > * [Silver_Bullet](#silver_bullet)
 > * [hacknote](#hacknote)
 > * [criticalheap](#criticalheap)
-> * [Death_Note](#Death_Note)
+> * [Death_Note](#death_note)
+> * [starbound](#starbound)
+> * [babystack](#babystack)
 
 start
 ---
@@ -369,6 +371,20 @@ for i in range(0x20, 0x7f):
 主要難點在沒有 int 0x80 而已
 
 
+starbound
+---
 
 
+babystack
+---
 
+一開始輸入 1 ，會進去一個 check_random() 的函數中，
+
+要我們輸入字串並和隨機生成的 random 比對，但比較的長度是根據
+
+我們輸入的字串 strlen(buf) ，所以可以使用 \x00 來 bypass
+
+不過也正因為他的判斷長度是看我們的輸入，所以可以一個一個爆破
+
+
+登入成功後，有一次使用 strcpy() 的機會
