@@ -8,6 +8,7 @@
 > * [Silver_Bullet](#silver_bullet)
 > * [hacknote](#hacknote)
 > * [criticalheap](#criticalheap)
+> * [Death_Note](#Death_Note)
 
 start
 ---
@@ -63,11 +64,46 @@ calc
     PIE:      No PIE (0x8048000)
 ```
 
-丟到 ida 來看 src code，一開始將輸入丟到 get_expr() 做檢測，
 
-只允許 + , - , * , / , % 和數字，之後再給 parse_expr() 處理
 
 整個漏洞在處理數字和邏輯時，可以 overflow
+
+
+執行程式如下，可以發現輸入 +10000 就 crash 了
+```
+root@solymx:/tmp/p# ./a
+=== Welcome to SECPROG calculator ===
+1+1
+2
++1
+1
+++2
+expression error!
++100
+0
++10000
+Segmentation fault (core dumped)
+
+```
+
+打開 ida pro 看一下程式，會發現 calc() 裡面一開始
+```
+  while ( 1 )
+  {
+    bzero(input, 0x400u);
+```
+他每次都會將我們的 input 清空，且有開 stack guard ，所以不可能 overflow 
+
+之後將輸入丟到 get_expr() 做檢測，
+
+只允許 + , - , * , / , % 和數字，之後進入到 init_pool() ，作用是將一個陣列初始化
+
+之後再給 parse_expr() 處理，解析分兩部分，一個是解析運算表達式，另一個是運算結果
+
+用兩個 stack 作保存，一個存運算符，另一個存運算結果
+
+
+
 
 dubblesort
 ---
@@ -293,5 +329,46 @@ char * strdup(const char *s);
 1. 先 leak heap base
 2. 設定環境變數 TZ 和 TZDIR ，將文件載入到 heap 中
 3. format string vuln 做任意讀
+
+
+
+
+Death_Note
+---
+
+先看保護
+```
+[*] '/tmp/p/a'
+    Arch:     i386-32-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX disabled
+    PIE:      No PIE (0x8048000)
+    RWX:      Has RWX segments
+
+```
+
+漏洞在新增 name 時，只有檢查上限而沒有檢查下限，所以可以給負數來蓋 got
+
+note 位置在 .bss (0x804a060) ，所以如果給 -1 則可以蓋到 0x804a05c
+
+所以打算直接蓋 free@got ，考 printable shellcode，長度限制 80
+
+(range: shellcode > 0x1f and shellcode < 0x7f)
+
+(附註: printable shellcode 網路上資料很多，所以這題算很簡單)
+
+有哪些可以用，可以簡單用 Pwntools 看一下
+```
+#!/usr/bin/env python
+from pwn import *
+for i in range(0x20, 0x7f):
+  print chr(i), disasm(chr(i) + "ABCDEFG").split('\n')[0][6:]
+```
+
+主要難點在沒有 int 0x80 而已
+
+
+
 
 
