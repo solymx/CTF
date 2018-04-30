@@ -1,0 +1,22 @@
+    def EFoF(self, suffix, prefix):
+        assert len(FLAG) == 32
+        assert len(self.key) == 16
+        return AESCipher(self.key).encrypt(suffix + FLAG + prefix)
+
+
+    def encrypt(self, raw):
+        iv = Random.new().read(AES.block_size)
+        digest = hmac.new(self.key, iv + raw, sha1).digest()
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        return b64encode(iv + cipher.encrypt(pad(raw + digest)))
+
+     def decrypt(self, enc):
+        enc = b64decode(enc)
+        iv = enc[:BLOCK_SIZE]
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        plain = unpad(cipher.decrypt(enc[BLOCK_SIZE:]))
+        raw, digest = plain[:-20], plain[-20:]
+        if hmac.new(self.key, iv + raw, sha1).digest() == digest:
+            return raw
+        else:
+            raise Exception
