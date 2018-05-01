@@ -374,6 +374,32 @@ for i in range(0x20, 0x7f):
 starbound
 ---
 
+main() 那裏有漏洞
+```
+while ( 1 )
+  {
+    alarm(0x3Cu);
+    bss_menu();
+    if ( !readn(nptr, 0x100u) )
+      break;
+    idx = strtol(nptr, 0, 10);
+    if ( !idx )                   // 沒有檢查邊界，可以跳去任意地方
+      break;
+    (dword_8058154[idx])();
+  }
+```
+
+可以在 name 那邊設定要執行的指令，然後控制 idx 跳過去
+
+而 name 和 0x08058154 差 33 ，所以只要給 -33 就可以跳到 Name
+
+而這題沒有給 libc ，所以應該是 ret2dlresolve 或 DynELF
+
+或者可以直接 open/read/write 去讀 flag (可以猜路徑應該是: /home/starbound/flag)
+
+我這邊就直接先 leak 出兩個 func@got ，然後[線上找就好](https://libc.blukat.me/?q=read%3A980%2Cwrite%3A9f0&l=libc6_2.23-0ubuntu7_i386)
+
+
 
 babystack
 ---
