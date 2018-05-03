@@ -37,3 +37,6 @@ Record
 
 * **Boston Key Party CTF**
 	- des-ofb-2 (DES weak key, ofb )
+
+* **ASIS CTF Quals 2018**
+	- Uncle Sam (rsa, Schmidt-Samoa Cryptosystem)
