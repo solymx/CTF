@@ -8,3 +8,6 @@ Record
 
 * **Nuit du Hack CTF Quals 2018**
 	- AssemblyMe (Web Assembly, 不會)
+
+* **ASIS CTF Quals 2018**
+	- WarmUp (單純編譯和執行 c code, 刪掉多餘函數)
