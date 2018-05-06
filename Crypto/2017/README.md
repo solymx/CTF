@@ -45,3 +45,7 @@ Record
 
 * **GreHack 2017**
 	- New Dsa (dsa)
+
+* **0ctf Quals 2017**
+	- Integrity (aes-cbc)
+	- onetimepad
