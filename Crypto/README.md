@@ -40,3 +40,6 @@ Record
 
 * **ASIS CTF Quals 2018**
 	- Uncle Sam (rsa, Schmidt-Samoa Cryptosystem)
+
+* **PlaidCTF 2018**
+	- Macsh (aes-ecb)
