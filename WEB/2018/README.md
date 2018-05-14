@@ -39,3 +39,6 @@ Record
 
 * **NoNameConCTF 2018**
 	- Convert (ssrf)
+
+* **PlaidCTF 2018**
+	- crauthz (sql injection, xor)
