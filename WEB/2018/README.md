@@ -42,3 +42,6 @@ Record
 
 * **PlaidCTF 2018**
 	- crauthz (sql injection, xor)
+
+* **DEF CON CTF Qualifier 2018**
+	- PHP Eval White-List (php eval)
