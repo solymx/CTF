@@ -11,3 +11,6 @@ Record
 
 * **ASIS CTF Quals 2018**
 	- WarmUp (單純編譯和執行 c code, 刪掉多餘函數)
+
+* **DEFCON CTF Qualifier 2018**
+	- ELF Crumble (patch)

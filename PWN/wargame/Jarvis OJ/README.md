@@ -1,6 +1,21 @@
 # Jarvis OJ - Write Up
 
-## Smashes
+> 目錄:
+> * [smashes](#smashes)
+> * [tell_me_something](#tell_me_something)
+> * [xman_level0](#xman_level0)
+> * [xman_level1](#xman_level1)
+> * [xman_level2](#xman_level2)
+> * [xman_level2_x64](#xman_level2_x64)
+> * [xman_level3](#xman_level3)
+> * [xman_level3_x64](#xman_level3_x64)
+> * [xman_level4](#xman_level4)
+> * [xman_level5](#xman_level5)
+> * [61dctf_fm](#61dctf_fm)
+> * [guess](#guess)
+
+smashes
+---
 
 這題有 Canary 但找不到繞過的方式，但透過 ida pro 可以看到 flag 直接放在程式裡面
 
@@ -11,39 +26,46 @@
 但這題有 ELF remapping ，可以在其他位置上找到 flag 的地址
 
 
-## Tell me Something
+tell_me_something
+---
 
 可以看到程式裡面有 good_game() 這個函數，會印出 flag
 
 所以就是 buffer overflow 後跳函數即可
 
-## [XMAN]level0
+xman_level0
+---
 
 同 Tell me Something ， overflow 後跳函數即可
 
-## [XMAN]level1 
+xman_level1 
+---
 
 沒有開任何保護，直接將 shellcode 塞到 buf 後跳過去即可
 
-## [XMAN]level2
+xman_level2
+---
 
 /bin/sh 和 system@plt 都可以直接在程式上找到
 
 直接構造 rop 即可
 
-## [XMAN]level2(x64)
+xman_level2_x64
+---
 
 /bin/sh 和 system@plt 都可以直接在程式上找到
 
 直接構造 rop 即可
 
-## [XMAN]level3
+xman_level3
+---
 
 利用 write 來 leak base address 後，算出 system 和 /bin/sh 
 
 之後 ROP
 
-## [XMAN]level3(x64)
+xman_level3_x64
+---
 
 這題沒有給 system 
 
@@ -59,13 +81,15 @@
 主要有一個問題是，找不到 rdx 的 gadget ，但看調適可以知道他的值會很大
 
 
-## [XMAN]level4
+xman_level4
+---
 
 這題和前面的差別在，沒有給 libc ，所以可以使用 DynELF
 
 或者 ret2dlresolve 之類的
 
-## [XMAN]level5
+xman_level5
+---
 > Description:
 >
 > mmap和mprotect练习，假设system和execve函数被禁用，请尝试使用mmap和mprotect完成本题。
@@ -133,4 +157,36 @@
 
 本地測試正常，不知道為啥丟遠端會有問題，感覺是網路延遲= =...
 [參考](http://veritas501.space/2017/03/10/JarvisOJ_WP/)
+
+
+
+61dctf_fm
+---
+
+這題是基本的 format string vuln
+
+漏洞是 `printf(buf);`
+
+然後只要把 x 從 3 改為 4 即可 
+
+```python
+#!/usr/bin/env python
+from pwn import *
+context.arch = 'i386'
+#r = process('/tmp/p/a')
+r = remote('pwn2.jarvisoj.com',9895)
+x = 0x0804a02c
+r.sendline(p32(x) + "%11$hhn")
+r.interactive()
+```
+
+
+guess
+---
+
+直接丟 ida pro ，可以知道他會開 socket 在本地 port: 9999
+
+然後主要程式在 handle() 裡面，輸入長度要求是 100
+
+
 

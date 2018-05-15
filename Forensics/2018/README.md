@@ -19,3 +19,6 @@ Record & collect ctf problems
 * **Nuit du Hack CTF Quals 2018**
 	- So Stealthy (pcap, ILSpy)
 	- Kebab STO (pcap)
+
+* **DEF CON CTF Qualifier 2018**
+	- throwback (猜謎)
