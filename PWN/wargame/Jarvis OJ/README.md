@@ -11,6 +11,8 @@
 > * [xman_level3_x64](#xman_level3_x64)
 > * [xman_level4](#xman_level4)
 > * [xman_level5](#xman_level5)
+> * [xman_level6](#xman_level6)
+> * [xman_level6_x64](#xman_level6_x64)
 > * [61dctf_fm](#61dctf_fm)
 > * [guess](#guess)
 
@@ -158,6 +160,15 @@ xman_level5
 本地測試正常，不知道為啥丟遠端會有問題，感覺是網路延遲= =...
 [參考](http://veritas501.space/2017/03/10/JarvisOJ_WP/)
 
+
+xman_level6
+---
+
+漏洞:
+1. del_note: 沒有將 free 的設為 Null
+
+xman_level6_x64
+---
 
 
 61dctf_fm

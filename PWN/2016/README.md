@@ -15,3 +15,6 @@ Record
 
 * **MMA CTF 2nd 2016**
 	- greeting (fmt vuln, .fini_array)
+
+* **ALICTF 2016**
+	- vss (rop, stack privot, static link)
