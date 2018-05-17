@@ -18,6 +18,8 @@ Record
 * **picoCTF 2017**
 	- smallRSA (rsa, wiener attack)
 	- Broadcast (rsa, Hastad’s Broadcast Attack)
+	- ComputeAES (練習 aes 指令)
+	- SoRandom (random.seed)
 
 * **TUCTF 2017**
 	- The Never Ending Crypto (do ROT 50 times)

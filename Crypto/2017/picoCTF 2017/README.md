@@ -53,3 +53,61 @@ for k in range(1,e):
 
 ```
 
+## ComputeAES
+> Problem:
+> 
+> Encrypted with AES in ECB mode. All values base64 encoded
+> ciphertext = rW4q3swEuIOEy8RTIp/DCMdNPtdYopSRXKSLYnX9NQe8z+LMsZ6Mx/x8pwGwofdZ
+> key = 6v3TyEgjUcQRnWuIhjdTBA==
+
+單純練習
+
+```python
+#!/usr/bin/env python
+from base64 import b64decode as b64d 
+from Crypto.Cipher import AES
+
+k = b64d("6v3TyEgjUcQRnWuIhjdTBA==")
+c = b64d("rW4q3swEuIOEy8RTIp/DCMdNPtdYopSRXKSLYnX9NQe8z+LMsZ6Mx/x8pwGwofdZ")
+print AES.new(k, AES.MODE_ECB).decrypt(c)
+```
+
+## SoRandom
+> Description:
+>
+> We found sorandom.py running at shell2017.picoctf.com:16768. It seems to be outputting the flag but randomizing all the characters first. Is there anyway to get back the original flag?
+> ---
+> $ nc shell2017.picoctf.com 16768
+> Unguessably Randomized Flag: BNZQ:449xg472190mwx6869b8pt10rwo92624
+
+
+因為她的亂數有設種子，所以順序是固定的，簡單拿他 CODE 來改就好
+```python
+import random,string
+
+flag = "BNZQ:449xg472190mwx6869b8pt10rwo92624"
+encflag = ""
+random.seed("random")
+for c in flag:
+  if c.islower():
+    #rotate number around alphabet a random amount
+    encflag += chr((ord(c)-ord('a')-random.randrange(0,26))%26 + ord('a'))
+  elif c.isupper():
+    encflag += chr((ord(c)-ord('A')-random.randrange(0,26))%26 + ord('A'))
+  elif c.isdigit():
+    encflag += chr((ord(c)-ord('0')-random.randrange(0,10))%10 + ord('0'))
+  else:
+    encflag += c
+print "Unguessably Randomized Flag: "+encflag
+```
+
+## Broadcast
+
+中國剩餘定理 / Hastad Broadcast attack
+
+## smallRSA
+
+看到 e 很大就可以猜是 wiener attack
+
+
+https://writeups.amosng.com/2017/picoctf_2017/cryptography/smallsign_140/
