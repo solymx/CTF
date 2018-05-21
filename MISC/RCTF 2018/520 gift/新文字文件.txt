@@ -1,0 +1,5 @@
+MAC can be a gift.  
+
+flag's length is 19 and the format of flag is RCTF{[a-z0-9]+}
+
+attachment: https://drive.google.com/open?id=1D3lIG9We5qsyVMKlkSvfDS4W77MDFKQC 

@@ -1,0 +1,8 @@
+FROM ubuntu:latest
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y php python3 nodejs ruby && mkdir /app
+WORKDIR /app
+
+# build: docker build -t rctf_cats .
+# judge: docker run -it --rm --network none -v /tmp/yourCatFood:/app/food:ro rctf_cats bash -c "timeout 5 diff -Z <(cat food) <(eachCatNameYouProvided food)"
