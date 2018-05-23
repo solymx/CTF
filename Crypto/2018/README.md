@@ -44,3 +44,7 @@ Record
 	- Hush Hush (md5 collision)
 	- SSS Part 1 (Shamir Secret Sharing)
 	- SSS Part 2
+
+* **RCTF 2018**
+	- ECDH (ECDH man-in-the-middle)
+	- cpushop (sha256, length_extension_attack, lea)
