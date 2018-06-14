@@ -32,5 +32,6 @@ Record
 * **Bamboofox CTF 2017**
 	- water-impossible (basic overflow)
 	
-
+* **UIUCTF 2017**
+	- goodluck (format string vuln)
 

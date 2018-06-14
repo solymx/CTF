@@ -51,3 +51,11 @@ Record
 * **0ctf Quals 2017**
 	- Integrity (aes-cbc)
 	- onetimepad
+
+* **nullcon HackIM 2017**
+	- crypto-question1 (bitcoin, BrainWallets, find private key)
+	- crypto-question2 (diffie-hellman key exchange basic, burte-force attack)
+	- crypto-question3 (爆破 ssh priv key passphrase)
+
+* **Boston Key Party 2017**
+	- rsa-buffet (rsa, secretsharing)
