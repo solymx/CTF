@@ -81,3 +81,36 @@ http://35.198.133.163:1337/files/
 
 [參考 1](https://robinverton.de/ctf/34c3-junior-kim-crypto/)
 [參考 2](https://github.com/AdityaVallabh/ctf-write-ups/tree/master/34C3%20-%20JuniorsCTF/kim)
+
+
+## Megalal
+> Description:
+>
+> You can reach a strange authentication system here: nc 35.197.255.108 1337
+> 
+> I'm sure you know what you have to do.
+
+[參考 CTFTime](https://ctftime.org/task/5145)
+
+
+這題考 ElGamal ，可以參考 wiki
+```
+ElGamal encryption is unconditionally malleable, and therefore is not secure under chosen ciphertext attack. For example, given an encryption (c1 , c2) of some (possibly unknown) message m, one can easily construct a valid encryption ( c1 , 2 * c2 ) of the message 2 * m.
+```
+
+題目一開始給兩個選單:
+1. login
+2. register
+
+選 login 要給 token ，如果 role = overlord ，則可以得到 flag
+選 register 要給 username 和 role 並會給我們一個 token (不能註冊 role = overlord)
+
+他的 token 是 enc(username#role) 回傳 c1_c2
+
+
+而一開始維基百科有寫，只要我們偽造 role = n2s("#overlord") / 2 
+
+之後將 c2 * 2 再丟回去即可
+
+
+

@@ -44,6 +44,7 @@ Record
 * **34C3 Junior CTF 2017**
 	- ecoin (zip -FF, aes, pdf)
 	- kim (length extension attack, lea)
+	- Megalal (ElGamal, chosen ciphertext attack)
 
 * **GreHack 2017**
 	- New Dsa (dsa)
