@@ -1,0 +1,2 @@
+The legacy ZIP crypto is long broken, so we've fixed it
+

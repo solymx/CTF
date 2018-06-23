@@ -114,3 +114,52 @@ ElGamal encryption is unconditionally malleable, and therefore is not secure und
 
 
 
+## top
+
+純考 random 有給 seed 則產生的 random 順序固定
+
+先看一下程式碼:
+1. 先取得當前時間 cur_time
+2. 要你輸入一個字串 (msg)
+3. 取得和其同長度的 key (random 得到)
+4. 在 key 後面加上 0x88 * len(cur_time)
+5. 將 msg + cur_time 和 key xor
+
+解密:
+先將 0x88 * len(cur_time) xor len(cur_time) 長度的 後半段 ciphertext
+
+這樣就可以得到 cur_time ，然後也就可以得到 key ，這樣再 xor 就可以得到 msg
+
+
+```python
+from pwn import *
+import random
+
+c = open("ciphertext", "rb").read()
+xor(c, 0x88)
+## 可以看到最後面有一串數字: 1513719133.8728752
+cur_time = b'1513719133.8728752'
+random.seed(cur_time)
+key_len = len(c) - len(cur_time)
+msg = "a"*key_len
+key = [random.randrange(256) for _ in msg]
+xor(key, c) ## get flag
+```
+
+
+## dotr
+> Description:
+>
+> I implemented some crypto and encrypted my secret: `03_duCbr5e_i_rY_or cou14:L4G f313_Th_etrph00 Wh03UBl_oo?n07!_e`
+>
+> Can you get it back?
+
+爆破 key ，因為長度是 8 且 一個 group 長度是 8 ，然後知道開頭是 `34C3_`
+
+就直接 8! 次可以找到答案
+
+
+
+
+
+

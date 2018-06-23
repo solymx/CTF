@@ -23,6 +23,7 @@ Record
 
 * **TUCTF 2017**
 	- The Never Ending Crypto (do ROT 50 times)
+	- Transporter (basic des, basic rsa)
 
 * **TPCTF 2017**
 	- Public key? What about <i>no</i> key? (rsa, only give c)
@@ -45,6 +46,8 @@ Record
 	- ecoin (zip -FF, aes, pdf)
 	- kim (length extension attack, lea)
 	- Megalal (ElGamal, chosen ciphertext attack)
+	- top (xor, random seed)
+	- dotr (brute force, 8!)
 
 * **GreHack 2017**
 	- New Dsa (dsa)
@@ -60,3 +63,11 @@ Record
 
 * **Boston Key Party 2017**
 	- rsa-buffet (rsa, secretsharing)
+
+* **InCTF 2017**
+	- Multi Layer RSA (rsa, wiener attack)
+	- RSA 1s fun (rsa, common modulus attack, e 不互質)
+
+* **Takoma Park CTF**
+	- 768 (rsa, 可以直接分解 n)
+	- Public key? What about <i>no</i> key? (rsa, iroot, 猜謎爛題目)
