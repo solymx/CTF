@@ -71,3 +71,12 @@ Record
 * **Takoma Park CTF**
 	- 768 (rsa, 可以直接分解 n)
 	- Public key? What about <i>no</i> key? (rsa, iroot, 猜謎爛題目)
+
+
+* **CODE BLUE CTF 2017**
+	- Common Modulus 1 (rsa, common modulus attack)
+	- Common Modulus 2 (rsa, common modulus attack, e 不互質)
+	- Common Modulus 3
+
+
+
