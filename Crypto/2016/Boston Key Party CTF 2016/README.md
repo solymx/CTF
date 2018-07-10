@@ -2,7 +2,7 @@
 
 ## des-ofb-2
 
-這題考 des 的弱密碼，如果不考慮校驗位，des 總共有 8 個弱密碼
+這題考 des 的 weak key，如果不考慮校驗位，des 總共有 8 個弱密碼
 
 可參考 [wiki](https://en.wikipedia.org/wiki/Weak_key)
 

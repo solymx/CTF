@@ -12,3 +12,9 @@ Record
 	- 61dctf_rsappend (common modulus attack, rsa)
 	- dsa (dsa, k reuse)
  
+* **id0-rsa.pub**
+	- Cut and Paste Attack On AES-ECB (ecb, cut and paste attack)
+	- Intro to RSA (單純計算 rsa)
+	- Ps and Qs (common factor attack, rsa)
+	- AES-CTR with Nonce Reuse (ctr, nonce reuse)
+	- CCA on Textbook RSA (選擇密文攻擊, cca, rsa)

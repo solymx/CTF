@@ -14,4 +14,3 @@
 
 所以算出 m 之後還要開三次方根
 
-## Common Modulus 3

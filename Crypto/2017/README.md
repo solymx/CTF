@@ -76,7 +76,21 @@ Record
 * **CODE BLUE CTF 2017**
 	- Common Modulus 1 (rsa, common modulus attack)
 	- Common Modulus 2 (rsa, common modulus attack, e 不互質)
-	- Common Modulus 3
 
+* **Kaspersky Industrial CTF Quals 2017**
+	- Security home cameras (basic xor)
+
+* **Backdoor CTF 2017**
+	- Complex RSA (wiener attack, rsa)
+
+未做:
+- CODE BLUE CTF 2017 / 
+	- Common Modulus 3 (考 common modulus attack in rsa)
+	- Random RSA (考 releate message attack in rsa)
+	- Paillier Oracle (考  Paillier Cryptosystem)
+- hitcon ctf 2017 quals
+- Kaspersky Industrial CTF Quals 2017 
+	- decrypt the message (aes cbc padding oracle attack)
+	- Bad computations
 
 
