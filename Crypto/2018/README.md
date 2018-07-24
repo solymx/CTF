@@ -51,3 +51,6 @@ Record
 
 * **meepwn ctf 2018***
 	- Bazik (rsa, Stereotyped Messages Attack)
+
+* **CTFZone 2018 Quals**
+	- USSH (cbc bit flipping attack)
