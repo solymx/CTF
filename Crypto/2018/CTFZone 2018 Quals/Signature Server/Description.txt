@@ -1,0 +1,6 @@
+Quantum computing is on its way. That's why i implemented a post-quantum signature server. However, I believe Winternitz checksum can be broken, so I tweaked it a bit. Sign all you want, it's free!
+server.py.
+nc crypto-02.v7frkwrfyhsjtbpfcppnu.ctfz.one 1337
+
+Hints:
+If you are experiencing problems with sending big messages to signature server, after getting "Error" wait for the the second error and resend

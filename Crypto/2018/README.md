@@ -48,3 +48,6 @@ Record
 * **RCTF 2018**
 	- ECDH (ECDH man-in-the-middle)
 	- cpushop (sha256, length_extension_attack, lea)
+
+* **meepwn ctf 2018***
+	- Bazik (rsa, Stereotyped Messages Attack)

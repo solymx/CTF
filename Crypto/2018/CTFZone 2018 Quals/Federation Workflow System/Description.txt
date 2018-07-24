@@ -1,0 +1,4 @@
+The source code for the Federation Workflow System has been leaked online this night.
+Our goal is to inspect it and gain access to their Top Secret documents.
+sources.zip
+nc crypto-04.v7frkwrfyhsjtbpfcppnu.ctfz.one 7331
