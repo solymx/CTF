@@ -36,3 +36,6 @@ Record
 * **Google Capture The Flag 2018 (Quals)**
 	- Beginner's Quest - Moar (man 中下指令, !command)
 	- Beginner's Quest - Admin UI (/proc/self/cmdline)
+
+* **CTFZone 2018 Quals**
+	- easypwn_strings (basic buffer overflow)

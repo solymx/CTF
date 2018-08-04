@@ -1,2 +1,0 @@
-We bring your attention to a new, unique product: "Mobile Bank"! It's a completely secure banking server running on mobile platforms. Now the Bank is in your pocket!
-nc pwn-04.v7frkwrfyhsjtbpfcppnu.ctfz.one 1337

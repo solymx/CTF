@@ -54,3 +54,10 @@ Record
 
 * **CTFZone 2018 Quals**
 	- USSH (cbc bit flipping attack)
+
+* **ISITDTU CTF 2018 Quals**
+	- Simple RSA (basic)
+	- xor (xor)
+	- baby (bit flipping attack)
+	- Love Cryptography (basic ax+b)
+	- aes cnv (aes bit flipping attack)
