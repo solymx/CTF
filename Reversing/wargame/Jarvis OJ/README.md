@@ -486,3 +486,157 @@ k = b64d('cGhyYWNrICBjdGYgMjAxNg==')
 print AES.new(k, AES.MODE_ECB).decrypt(c)
 ```
 
+## Classical CrackMe2
+
+首先丟 detect it easy 間單看一下，一個 .net 程式
+
+之後用 dnSpy 解
+
+[參考](https://hk.saowen.com/a/1a229716815dbef999bca7de2632016ac3dbe73d87d51316234ae8e6e6a969e0)
+
+一開始點 run 然後設定要 break 在 entry point
+
+然後跳到另一個畫面後，點一下 new 後面那串字，會跳到主程式那
+```
+Application.Run(new Wm@@9OrPgw\u0020d/p?i,N>l*h@Y!());
+```
+
+一直往下看會看到這邊
+```
+public static string \u202B\u202E\u200F\u200B\u202D\u202D\u200B\u206B\u200C\u202E\u206A\u206C\u206C\u200F\u200B\u200B\u206C\u200C\u202E\u202B\u206F\u202C\u202A\u206C\u202B\u200C\u200E\u202D\u206F\u206E\u200B\u202B\u202C\u202B\u206A\u206D\u200D\u206E\u200D\u206E\u202E(string A_0)
+    {
+        byte[] bytes = Encoding.UTF8.GetBytes(<Module>.\u206A\u206D\u202B\u200D\u206D\u202D\u202E\u200C\u206A\u206C\u206E\u202C\u202A\u200E\u206B\u202A\u200F\u202B\u200E\u200E\u206B\u200E\u206A\u206F\u206D\u200F\u200B\u200E\u202A\u202D\u206C\u200D\u206B\u200B\u200B\u206F\u200E\u202B\u200C\u206F\u202E<string>(2131648913u));
+        byte[] bytes2 = Encoding.UTF8.GetBytes(A_0);
+        ICryptoTransform cryptoTransform = new RijndaelManaged
+        {
+            Key = bytes,
+            Mode = CipherMode.ECB,
+            Padding = PaddingMode.PKCS7
+        }.CreateEncryptor();
+        byte[] array = cryptoTransform.TransformFinalBlock(bytes2, 0, bytes2.Length);
+        return Convert.ToBase64String(array, 0, array.Length);
+    }
+```
+
+從這邊可以看到他用 AES ， MODE 是 ECB ，bytes 這個變數存 key
+
+所以在 `byte[] bytes2` 這行按右鍵下斷點，然後按 continue 可以看到 key 的值
+
+之後往下看一下程式碼
+
+```
+private void \u202C\u202B\u206C\u202D\u200C\u206A\u206E\u206D\u202D\u202C\u206B\u206B\u202A\u202A\u206F\u206C\u206E\u202A\u206E\u200D\u206A\u200E\u206E\u206D\u200D\u202E\u206E\u200C\u200E\u200F\u202E\u202A\u206E\u200B\u202B\u206A\u202B\u206B\u200D\u206E\u202E(object A_1, EventArgs A_2)
+    {
+        string text = this.\u200E\u202E\u206C\u202E\u200D\u202B\u206A\u200E\u206A\u202B\u202B\u202D\u202C\u200F\u206C\u200C\u200D\u202E\u206B\u206C\u202E\u200C\u206D\u206F\u206A\u200B\u202B\u206D\u200C\u206C\u206C\u202A\u200E\u206C\u206C\u206F\u200E\u202E\u206E\u206C\u202E.Text;
+        string text2 = Wm@@9OrPgw\u0020d/p?i,N>l*h@Y!.\u202B\u202E\u200F\u200B\u202D\u202D\u200B\u206B\u200C\u202E\u206A\u206C\u206C\u200F\u200B\u200B\u206C\u200C\u202E\u202B\u206F\u202C\u202A\u206C\u202B\u200C\u200E\u202D\u206F\u206E\u200B\u202B\u202C\u202B\u206A\u206D\u200D\u206E\u200D\u206E\u202E(text);
+        if (text != "" && text2 == <Module>.\u206C\u202E\u200B\u200F\u206E\u200E\u206C\u200D\u206F\u206F\u206B\u202B\u202D\u202C\u206A\u206F\u206C\u200C\u200E\u202A\u200D\u200E\u206A\u206D\u202E\u206A\u206D\u206D\u200D\u206E\u200E\u206C\u206E\u200C\u200B\u202B\u206D\u206A\u206F\u200F\u202E<string>(2114908449u))
+        {
+            MessageBox.Show(<Module>.\u200C\u200B\u202A\u200F\u200B\u206E\u206F\u206A\u202B\u206B\u202E\u206E\u200E\u206F\u200F\u200C\u202B\u200D\u202D\u206E\u206C\u202E\u202A\u202D\u202B\u206F\u206C\u206B\u206E\u206D\u206C\u200C\u200C\u206A\u202A\u206F\u206D\u206A\u206D\u206C\u202E<string>(655092558u), <Module>.\u200C\u200B\u202A\u200F\u200B\u206E\u206F\u206A\u202B\u206B\u202E\u206E\u200E\u206F\u200F\u200C\u202B\u200D\u202D\u206E\u206C\u202E\u202A\u202D\u202B\u206F\u206C\u206B\u206E\u206D\u206C\u200C\u200C\u206A\u202A\u206F\u206D\u206A\u206D\u206C\u202E<string>(4269915770u), MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+        else
+``` 
+
+這邊可以看到 text2 如果比對正確，就可以 get flag ，那先用左鍵點一下 text2 後面那一串字
+
+會跳到另一個函數，在那個函數的最後面 `return result` 那邊下斷點，在繼續 continue
+
+可以看到 flag 加密後的樣子，這樣就可以解了 
+
+```python
+#!/usr/bin/env python
+from Crypto.Cipher import AES
+import libnum
+key = 0x7063746632303136706374663230313670637466323031367063746632303136
+key = libnum.n2s(key)
+
+func = AES.new(key, AES.MODE_ECB)
+
+c = b64d("x/nzolo0TTIyrEISd4AP1spCzlhSWJXeNbY81SjPgmk=")
+
+print func.decrypt(c) # flag
+```
+
+## 61dctf_androideasy
+
+很簡單的入門 android 題目
+
+直接拿 classes.dex 轉 jar 用 jd-gui 看
+
+可以知道單純 xor
+```python
+a = [113, 123, 118, 112, 108, 94, 99, 72, 38, 68, 72, 87, 89, 72, 36, 118, 100, 78, 72, 87, 121, 83, 101, 39, 62, 94, 62, 38, 107, 115, 106]
+flag = ''
+for i in a:
+    flag += chr(i^0x17)
+
+print flag
+```
+ 
+## [61dctf]stheasy
+
+很基本的題目，直接丟 ida pro 可以看到他是要長度 = 29 ，然後
+
+依照他規則寫 code 解即可
+
+## DD - Android Easy
+
+一樣拿 classes.dex 轉 jar 看 code ，照著他流程寫就好@@
+```python
+p = [ -40, -62, 107, 66, -126, 103, -56, 77, 122, -107, -24, -127, 72, -63, -98, 64, -24, -5, -49, -26, 79, -70, -26, -81, 120, 25, 111, -100, -23, -9, 122, -35, 66, -50, -116, 3, -72, 102, -45, -85, 0, 126, -34, 62, 83, -34, 48, -111, 61, -9, -51, 114, 20, 81, -126, -18, 27, -115, -76, -116, -48, -118, -10, -102, -106, 113, -104, 98, -109, 74, 48, 47, -100, -88, 121, 22, -63, -32, -20, -41, -27, -20, -118, 100, -76, 70, -49, -39, -27, -106, -13, -108, 115, -87, -1, -22, -53, 21, -100, 124, -95, -40, 62, -69, 29, 56, -53, 85, -48, 25, 37, -78, 11, -110, -24, -120, -82, 6, -94, -101 ]
+q = [-57, -90, 53, -71, -117, 98, 62, 98, 101, -96, 36, 110, 77, -83, -121, 2, -48, 94, -106, -56, -49, -80, -1, 83, 75, 66, -44, 74, 2, -36, -42, -103, 6, -115, -40, 69, -107, 85, -78, -49, 54, 78, -26, 15, 98, -70, 8, -90, 94, -61, -84, 64, 112, 51, -29, -34, 126, -21, -126, -71, -31, -24, -60, -2, -81, 66, -84, 85, -91, 10, 84, 70, -8, -63, 26, 126, -76, -104, -123, -71, -126, -62, -23, 11, -39, 70, 14, 59, -101, -39, -124, 91, -109, 102, -49, 21, 105, 0, 37, -128, -57, 117, 110, -115, -86, 56, 25, -46, -55, 7, -125, 109, 76, 104, -15, 82, -53, 18, -28, -24 ]
+
+a = []
+for i in range(len(p)):
+    a.append(p[i] ^ q[i])
+
+k = a[0]
+i = 0;
+while 1:
+    if a[i + k] != 0:
+        i += 1
+    else:
+        break
+# i = 54
+f = ''
+for i in range(54):
+    f += chr(a[k + i])
+print f
+```
+
+
+## FindPass
+
+完全一步一步照[這篇](https://www.jianshu.com/p/73eb1e15b0f5)走
+
+本來想改用夜神，但好像有 bug = =
+
+
+## 爬楼梯
+
+先把 apk 安裝下來，可以知道要爬樓梯到他要求的高度才給 flag
+
+這種看起來跟破遊戲蠻像的，直接丟 android killer 看一下 java code 有一行
+
+```java
+if (this.to_reach_int <= this.has_gone_int) {
+      ((Button)findViewById(2131492950)).setClickable(true);
+```
+那我們直接在 android killer 裡面搜索 `setClickable`
+
+會搜尋到兩個，那比對一下 java code ，去改 smali 的第二個結果應該是我們要的
+
+也就是把 v5 從 0x0 改為 0x1 (181 行)
+
+不過不知道為啥用 android killer 簽名會失敗= =
+
+改用 apktool box 就成功@@
+
+之後安裝後，就可以馬上看到 flag 了
+
+
+哦哦後面檢查一下發現，好像是 res/ 下有一個 png 在打包時會出錯@@
+
+所以像用 apktool box 選擇不要處理 res/ 就正常
+
+
+

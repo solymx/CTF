@@ -39,3 +39,10 @@ Record
 
 * **CTFZone 2018 Quals**
 	- easypwn_strings (basic buffer overflow)
+
+
+* **Hackcon 2018**
+	- BOF (buffer overflow 跳函數)
+	- She Sells Sea Shells (buffer overflow 塞 shellcode 跳過去)
+	- WarChange (buffer overflow 蓋變數)
+	- Simple Yet Elegent (buffer overflow, format string vuln, rop)

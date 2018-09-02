@@ -1,0 +1,4 @@
+We tried our best to make this challenge anti reversible. Lets see what you can do.
+
+The binary to give out flags is running on
+nc 139.59.30.165 6969

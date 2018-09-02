@@ -10,3 +10,6 @@ Record
 
 * **tinyCTF 2014**
 	- Not exactly Alcatraz (simple python sandbox)
+
+* **asis ctf final 2014**
+	- secure-hobby (use \x00 bypass strstr)
