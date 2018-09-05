@@ -1,0 +1,6 @@
+host : pwn1.chal.ctf.westerns.tokyo
+port : 16625
+
+The flag is
+
+print 'TWCTF{{{}}}'.format(open('key', 'rb').read().encode('hex'))
