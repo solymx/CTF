@@ -61,3 +61,11 @@ Record
 	- baby (bit flipping attack)
 	- Love Cryptography (basic ax+b)
 	- aes cnv (aes bit flipping attack)
+
+* **Codefest CTF 2018**
+	- Access Denied? (random seed, 考 random 用 seed 的亂數是固定的)
+
+* **noxCTF 2018**
+	- Chop Suey (basic rsa, 利用 CRT 公式解)
+	- Decryptor (Classic RSA Chosen Cipher Attack, rsa)
+	- Plot Twist ()

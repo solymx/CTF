@@ -14,3 +14,6 @@ Record
 
 * **DEFCON CTF Qualifier 2018**
 	- ELF Crumble (patch)
+
+* **Codefest CTF 2018**
+	- Doki Doki (gdb)

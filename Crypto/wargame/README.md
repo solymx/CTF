@@ -18,3 +18,10 @@ Record
 	- Ps and Qs (common factor attack, rsa)
 	- AES-CTR with Nonce Reuse (ctr, nonce reuse)
 	- CCA on Textbook RSA (選擇密文攻擊, cca, rsa)
+
+* **hackme.inndy.tw**
+	- not hard (base85, base32, 猜謎)
+	- classic cipher 2 (vigenere cipher 但 key 很長)
+	- easy AES (basic AES)
+	- one time padding (xor, 暴力窮舉)
+	- login as admin 2 (length extension attack, LEA)
