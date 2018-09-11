@@ -68,4 +68,7 @@ Record
 * **noxCTF 2018**
 	- Chop Suey (basic rsa, 利用 CRT 公式解)
 	- Decryptor (Classic RSA Chosen Cipher Attack, rsa)
-	- Plot Twist ()
+	- Plot Twist (Classic Mersenne twister Prediction, python2 random library)
+	- Java Corporation (padding oracle attack, aes-cbc)
+	- WTF (wiener attack, rsa, 猜謎)
+	- Trinity (Hastad's Broadcast Attack, rsa, 小猜謎)
