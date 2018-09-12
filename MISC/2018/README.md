@@ -10,3 +10,6 @@ Record
 	- vimshell (給你 vim 環境下要開 shell)
 	- mondai.zip (猜謎，反覆解壓縮 zip ，每關不同類型)
 	- pysandbox (python sandbox ast, 沒解)
+
+* **noxCTF 2018**
+	- Marcode (ffmpeg, qr-code)
