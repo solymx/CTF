@@ -22,3 +22,7 @@ Record & collect ctf problems
 
 * **DEF CON CTF Qualifier 2018**
 	- throwback (猜謎)
+
+* **Trend Micro CTF Quals 2018**
+	- Forensics-Crypto 1 100 (qr code 還原)
+	- DeepDive (pcap, unpack python installer)

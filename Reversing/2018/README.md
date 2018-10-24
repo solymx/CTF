@@ -17,3 +17,7 @@ Record
 
 * **Codefest CTF 2018**
 	- Doki Doki (gdb)
+
+* **noxCTF 2018**
+	- Guess The String (單純看 assembly)
+	- Att3nti0n ()

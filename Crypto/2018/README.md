@@ -72,3 +72,10 @@ Record
 	- Java Corporation (padding oracle attack, aes-cbc)
 	- WTF (wiener attack, rsa, 猜謎)
 	- Trinity (Hastad's Broadcast Attack, rsa, 小猜謎)
+
+* **CSAW CTF Qualification Round 2018**
+	- babycrypto (xor, base64 decode, 猜謎)
+	- flatcrypto (compression side channel attack, zlib compress, 根據壓縮長度來爆破)
+
+* **Trend Micro CTF Quals 2018**
+	- Offensive-Analysis 300 (common factor attack, rsa)
