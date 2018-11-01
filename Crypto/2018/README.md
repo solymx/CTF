@@ -79,3 +79,7 @@ Record
 
 * **Trend Micro CTF Quals 2018**
 	- Offensive-Analysis 300 (common factor attack, rsa)
+
+* **picoCTF 2018**
+	- SpyFi (AES-ECB)
+	- Magic padding Oracle (CBC, padding oracle attack)

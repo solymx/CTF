@@ -21,3 +21,6 @@ Record
 * **noxCTF 2018**
 	- Guess The String (單純看 assembly)
 	- Att3nti0n ()
+
+* **picoCTF 2018**
+	- keygen-me-1 (basic keygen)

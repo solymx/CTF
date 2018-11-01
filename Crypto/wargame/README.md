@@ -11,6 +11,8 @@ Record
 	- 61dctf_bbencode (brute force, xor)
 	- 61dctf_rsappend (common modulus attack, rsa)
 	- dsa (dsa, k reuse)
+	- BrokenPic (補 bmp file header, AES-ECB)
+	- 神秘的压缩包 (crc 5 位元爆破)
  
 * **id0-rsa.pub**
 	- Cut and Paste Attack On AES-ECB (ecb, cut and paste attack)
