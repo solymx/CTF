@@ -1,0 +1,2 @@
+You receive an ELF binary which you must unlock with a key. Find the key and it will contain your flag.
+

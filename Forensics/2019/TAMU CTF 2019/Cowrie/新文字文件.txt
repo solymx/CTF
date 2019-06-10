@@ -1,0 +1,8 @@
+password: tamuctf
+
+Warning this challenge contains some malware samples.
+
+What was the most common src ip (telnet & ssh)?
+What was the most common telnet username?
+What was the most common ssh username?
+What is the url and channel of the IRC server that the one downloaded script tried to connect to? (url, channel)

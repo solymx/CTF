@@ -1,0 +1,7 @@
+The team has recovered the light sensor values from the target・s phone. We need you to use these values and identify the target・s 8-digit bank PIN.
+
+The target is a creature of habit so we・ve used that to our advantage. The sensor values are taken over a week during his commute on the subway. Same seat and roughly the same time so the conditions are good for your technique. There is good intelligence that the target typed in the PIN multiple times throughout the week during the commute.
+
+We also recovered the light sensor values from right before a phone call was made on the target・s phone, when the target was typing in a known phone number. However, these values were recorded under different lighting conditions than when the target was entering their 8-digit bank PIN.
+
+Note: The flag for this challenge is MCA{PIN}

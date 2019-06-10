@@ -1,0 +1,6 @@
+password: tamuctf
+
+Warning this challenge contains some malware samples.
+
+What CVE was alerted for the most?
+What was the most common signature?

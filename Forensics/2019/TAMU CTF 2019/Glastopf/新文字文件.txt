@@ -1,0 +1,6 @@
+password: tamuctf
+
+Warning this challenge contains some malware samples.
+
+What was the most common src ip?
+What are the three most commonly requested url besides / get or post? (no slashes, all lowercase, alphabetical (1.ext, a.ext, b.ext))

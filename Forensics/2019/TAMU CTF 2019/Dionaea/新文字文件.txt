@@ -1,0 +1,6 @@
+password: tamuctf
+
+Warning this challenge contains some malware samples.
+
+What was the most common src ip?
+What is the common name for the most commonly downloaded malware?

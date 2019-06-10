@@ -1,0 +1,7 @@
+password: tamuctf
+
+Warning this challenge contains some malware samples.
+
+What was the most common src ip?
+What was the most common user agent?
+What was the second most common user agent?

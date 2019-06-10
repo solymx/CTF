@@ -1,0 +1,8 @@
+Recently, the office put up a private webserver to store important information about the newest research project for the company. This information was to be kept confidential, as it's release could mean a large loss for everyone in the office.
+
+Just as the research was about to be published, a competing firm published information eerily similar. Too similar...
+
+Time to take a look through the office network logs to figure out what happened.
+
+What is the IP address of the private webserver?
+How many hosts made contact with the private webserver that day?
